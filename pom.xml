@@ -4,7 +4,7 @@
 
   <groupId>org.jenkins-ci</groupId>
   <artifactId>trilead-ssh2</artifactId>
-  <version>build217-jenkins-9-sumo2</version>
+  <version>build217-jenkins-9-sumo3</version>
 
   <name>Ganymed SSH2 for Java</name>
   <description>Ganymed SSH2 for Java is a library which implements the SSH-2 protocol in pure Java</description>
@@ -12,7 +12,7 @@
   <licenses>
     <license>
       <name>BSD style license</name>
-      <url>http://www.ganymed.ethz.ch/ssh2/LICENSE.txt</url>        
+      <url>http://www.ganymed.ethz.ch/ssh2/LICENSE.txt</url>
     </license>
   </licenses>
 

@@ -1,23 +1,6 @@
 package com.trilead.ssh2.transport;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.InterruptedIOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.SecureRandom;
-import java.util.Vector;
-
-import com.trilead.ssh2.ConnectionInfo;
-import com.trilead.ssh2.ConnectionMonitor;
-import com.trilead.ssh2.DHGexParameters;
-import com.trilead.ssh2.HTTPProxyData;
-import com.trilead.ssh2.HTTPProxyException;
-import com.trilead.ssh2.ProxyData;
-import com.trilead.ssh2.ServerHostKeyVerifier;
+import com.trilead.ssh2.*;
 import com.trilead.ssh2.crypto.Base64;
 import com.trilead.ssh2.crypto.CryptoWishList;
 import com.trilead.ssh2.crypto.cipher.BlockCipher;
@@ -27,6 +10,17 @@ import com.trilead.ssh2.packets.PacketDisconnect;
 import com.trilead.ssh2.packets.Packets;
 import com.trilead.ssh2.packets.TypesReader;
 import com.trilead.ssh2.util.Tokenizer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.SecureRandom;
+import java.util.Vector;
 
 
 /*
@@ -40,14 +34,14 @@ import com.trilead.ssh2.util.Tokenizer;
  * other than KEX, they become horribly irritated and kill the connection. Since
  * we are very likely going to communicate with OpenSSH servers, we have to play
  * the same game - even though we could do better.
- * 
+ *
  * btw: having stdout and stderr on the same channel, with a shared window, is
  * also a VERY good idea... =(
  */
 
 /**
  * TransportManager.
- * 
+ *
  * @author Christian Plattner, plattner@trilead.com
  * @version $Id: TransportManager.java,v 1.2 2008/04/01 12:38:09 cplattne Exp $
  */
@@ -148,7 +142,7 @@ public class TransportManager
 	 * the resolver even though one supplies a dotted IP
 	 * address in the Socket constructor. That is why we
 	 * try to generate the InetAdress "by hand".
-	 * 
+	 *
 	 * @param host
 	 * @return the InetAddress
 	 * @throws UnknownHostException
@@ -229,7 +223,7 @@ public class TransportManager
 	{
 		return km.getOrWaitForConnectionInfo(kexNumber);
 	}
-	
+
 	public ClientServerHello getVersionInfo() {
 		return versions;
 	}
@@ -458,7 +452,7 @@ public class TransportManager
             int connectTimeout, SecureRandom rnd, ProxyData proxyData) throws IOException {
         initialize(cwl, verifier, dhgex, connectTimeout, 0, rnd, proxyData);
     }
-    
+
     public void initialize(CryptoWishList cwl, ServerHostKeyVerifier verifier, DHGexParameters dhgex,
 			int connectTimeout, int readTimeout, SecureRandom rnd, ProxyData proxyData) throws IOException
 	{
@@ -688,7 +682,7 @@ public class TransportManager
 	{
 		byte[] msg = new byte[MAX_PACKET_SIZE];
 
-		while (true)
+		while (!isConnectionClosed())
 		{
 			int msglen = tc.receiveMessage(msg, 0, msg.length);
 
